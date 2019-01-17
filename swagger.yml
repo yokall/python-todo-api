@@ -1,0 +1,125 @@
+swagger: "2.0"
+info:
+  description: Swagger file for Todo API
+  version: "1.0.0"
+  title: Todo API
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+basePath: "/api"
+
+# Paths supported by the server application
+paths:
+  /todos:
+    get:
+      operationId: "todos.read_all"
+      tags:
+        - "todos"
+      summary: "The todos data structure supported by the server application"
+      description: "Read the list of todos"
+      responses:
+        200:
+          description: "Successful read todos list operation"
+          schema:
+            type: "array"
+            items:
+              properties:
+                id:
+                  type: "integer"
+                title:
+                  type: "string"
+                complete:
+                  type: "boolean"
+
+    post:
+      operationId: todos.create
+      tags:
+        - todos
+      summary: Create a todo and add it to the todos list
+      description: Create a new todo in the todos list
+      parameters:
+        - name: todo
+          in: body
+          description: Task to create
+          required: True
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Title of todo to create
+              complete:
+                type: boolean
+                description: Completion of todo to create
+      responses:
+        201:
+          description: Successfully created todo in list
+
+  /todos/{id}:
+    get:
+      operationId: todos.read_one
+      tags:
+        - todos
+      summary: Read one todo from the todos list
+      description: Read one todo from the todos list
+      parameters:
+        - name: id
+          in: path
+          description: ID of the todo to get from the list
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully read todo from todos list operation
+          schema:
+            properties:
+              id:
+                type: integer
+              title:
+                type: string
+              complete:
+                type: boolean
+
+    put:
+      operationId: todos.update
+      tags:
+        - todos
+      summary: Update a todo in the todos list
+      description: Update a todo in the todos list
+      parameters:
+        - name: id
+          in: path
+          description: ID of the todo to update in the list
+          type: integer
+          required: True
+        - name: todo
+          in: body
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              title:
+                type: string
+              complete:
+                type: boolean
+      responses:
+        200:
+          description: Successfully updated todo in todos list
+
+    delete:
+      operationId: todos.delete
+      tags:
+        - todos
+      summary: Delete a todo from the todos list
+      description: Delete a todo
+      parameters:
+        - name: id
+          in: path
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully deleted a todo from todos list
